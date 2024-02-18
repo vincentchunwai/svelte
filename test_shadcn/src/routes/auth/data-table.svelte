@@ -25,7 +25,7 @@
     type Payment = {
       id: string;
       amount: number;
-      status: "Pending" | "Processing" | "Success" | "Failed";
+      dept: "IT" | "General Officer" | "TSS" | "HR";
       email: string;
     };
   
@@ -33,79 +33,79 @@
       {
         id: "m5gr84i9",
         amount: 316,
-        status: "Success",
+        dept: "IT",
         email: "ken99@yahoo.com"
       },
       {
         id: "3u1reuv4",
         amount: 242,
-        status: "Success",
+        dept: "IT",
         email: "Abe45@gmail.com"
       },
       {
         id: "derv1ws0",
         amount: 837,
-        status: "Processing",
+        dept: "General Officer",
         email: "Monserrat44@gmail.com"
       },
       {
         id: "5kma53ae",
         amount: 874,
-        status: "Success",
+        dept: "General Officer",
         email: "Silas22@gmail.com"
       },
       {
         id: "bhqecj4p",
         amount: 721,
-        status: "Failed",
+        dept: "General Officer",
         email: "carmella@hotmail.com"
       },
       {
         id: "bhqecj4p",
         amount: 721,
-        status: "Failed",
+        dept: "TSS",
         email: "carmella@hotmail.com"
       },
       {
         id: "bhqecj4p",
         amount: 721,
-        status: "Failed",
+        dept: "General Officer",
         email: "carmella@hotmail.com"
       },
       {
         id: "bhqecj4p",
         amount: 721,
-        status: "Failed",
+        dept: "HR",
         email: "carmella@hotmail.com"
       },
       {
         id: "bhqecj4p",
         amount: 721,
-        status: "Failed",
+        dept: "HR",
         email: "carmella@hotmail.com"
       },
       {
         id: "bhqecj4p",
         amount: 721,
-        status: "Failed",
+        dept: "TSS",
         email: "carmella@hotmail.com"
       },
       {
         id: "bhqecj4p",
         amount: 721,
-        status: "Failed",
+        dept: "General Officer",
         email: "carmella@hotmail.com"
       },
       {
         id: "bhqecj4p",
         amount: 721,
-        status: "Failed",
+        dept: "General Officer",
         email: "carmella@hotmail.com"
       },
       {
         id: "bhqecj4p",
         amount: 721,
-        status: "Failed",
+        dept: "TSS",
         email: "carmella@hotmail.com"
       },
     ];
@@ -147,9 +147,15 @@
         }
       }),
       table.column({
-        header: "Status",
-        accessor: "status",
-        plugins: { sort: { disable: true }, filter: { exclude: true } }
+        header: "Department",
+        accessor: "dept",
+        plugins: {
+          filter: {
+            getFilterValue(value) {
+              return value.toLowerCase();
+            }
+          }
+        }
       }),
       table.column({
         header: "Email",
@@ -184,9 +190,9 @@
       }),
       table.column({
         header: "",
-        accessor: ({ id }) => id,
+        accessor: ({ email }) => email,
         cell: (item) => {
-          return createRender(Actions, { id: item.value });
+          return createRender(Actions, { email: item.value });
         },
         plugins: {
           sort: {
@@ -221,7 +227,7 @@
   
     const { selectedDataIds } = pluginStates.select;
   
-    const hideableCols = ["status", "email", "amount"];
+    const hideableCols = ["dept", "email", "amount"];
   </script>
   
   <div class="w-full">
@@ -271,6 +277,16 @@
                           <Render of={cell.render()} />
                         </div>
                       {:else if cell.id === "email"}
+                        <Button variant="ghost" on:click={props.sort.toggle}>
+                          <Render of={cell.render()} />
+                          <CaretSort
+                            class={cn(
+                              $sortKeys[0]?.id === cell.id && "text-foreground",
+                              "ml-2 h-4 w-4"
+                            )}
+                          />
+                        </Button>
+                      {:else if cell.id === "dept"}
                         <Button variant="ghost" on:click={props.sort.toggle}>
                           <Render of={cell.render()} />
                           <CaretSort

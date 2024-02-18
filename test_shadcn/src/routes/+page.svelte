@@ -1,6 +1,6 @@
 <script lang="ts">
     export let params;
-    import DataTable from "./payment/data-table.svelte";
+    import DataTable from "./auth/data-table.svelte";
     import Button from "$lib/components/ui/button/button.svelte";
     import "carbon-components-svelte/css/g100.css";
     import { Modal } from "carbon-components-svelte";
@@ -17,7 +17,7 @@
     <DataTable />
     <Modal
     bind:open
-    modalHeading="Authorize User"
+    modalHeading="Add User"
     primaryButtonText="Confirm"
     secondaryButtonText="Cancel"
     on:click:button--secondary={() => (open = false)}
